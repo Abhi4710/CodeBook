@@ -1,0 +1,81 @@
+// function for Automation button.
+function createNewSpreadsheet() {
+  
+  function finishMSg(){
+  Browser.msgBox('WORK DONE!');
+};
+  
+  // creating a variable named app as an instance of the Google App Script G suite Spreadsheet app.
+  var app = SpreadsheetApp;
+    
+  // get the active Spreadsheet
+  var mainSpreadsheet = app.getActiveSpreadsheet();
+  
+  // get the template sheet. getSheetByName(Name_of_Sheet_to be used for template).
+  var basetemplateSheet = mainSpreadsheet.getSheetByName("baseTemplate");
+  
+  // heademail will be used while sharing the spreadsheet.
+  var headEmail = "aroy.aapnainfotech.com";
+  
+  // To be used in looping.
+  var lastRow = app.getActiveSheet().getLastRow();  //getting the last row
+  var lastColumn = app.getActiveSheet().getLastColumn();   //getting the last column
+  
+  // Main loop to iterate through all the rows.
+  for (var row = 2 ; row<=lastRow; row += 1){
+    
+    // variable to store the data of the employee at a particular row.
+    var emplistdata = [];
+    
+    // loop to read the data from row and store in empdatalist.
+    for (var i=1; i<=lastColumn; i += 1){
+        emplistdata.push(app.getActiveSheet().getRange(row, i).getValue());
+    }
+    
+    // variable to store empName. To be used while crateing the new spreadsheet. 
+    var empName = emplistdata[0];
+    
+    // variable managerEmail and employeeEmail. used to store email and will be used when sending email.
+    var managerEmail = emplistdata[5];
+    var employeeEmail = emplistdata[6];
+    
+    // splitting email of user to get user id. General format of email name@aaonainfotech.in.
+    var empid = employeeEmail.split('@');
+    var id = empid[0];
+    
+    // create the new spreadsheet.
+    var d = new Date();
+    var n = d.getFullYear();
+    var newSpreadsheet = app.create("KRA_"+id+"_"+n);
+    
+    // Getting the default sheet that get created when a new spreadsheet is create.
+    var defaultSheet = newSpreadsheet.getSheetByName("sheet1");
+    
+    // copy the base template to the newspreadsheet.
+    basetemplateSheet.copyTo(newSpreadsheet);
+    
+    // delete the default sheet as it is not required.
+    newSpreadsheet.deleteSheet(defaultSheet);
+    
+    // getting the templateshee to be used as template in the new sheet.
+    var templateSheet = newSpreadsheet.getSheetByName("Copy of baseTemplate");
+    var newSheet = newSpreadsheet.insertSheet("KRA/KPI SHEET",0, {template: templateSheet}); 
+    
+    // for loop to push the data of employee in the newsheet.
+    for (var k=0; k<=emplistdata.length - 1; k += 1){
+      var j = k+2;
+      newSheet.getRange("C"+j.toString()).setValue(emplistdata[k]);
+      }
+    
+    // Adding email as alist of string to be used for emails.
+    var emailArray= [managerEmail, employeeEmail, headEmail];  
+    newSpreadsheet.addEditors(emailArray);
+    
+    // delete the template sheet from the new spreadsheet created as it is not required anymore.
+    newSpreadsheet.deleteSheet(templateSheet);
+    
+  }
+  finishMSg();
+}
+
+
