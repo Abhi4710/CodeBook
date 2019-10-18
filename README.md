@@ -1,2 +1,2 @@
 # CodeBook
-General EveryDay codes.
+General EveryDay Codes.
