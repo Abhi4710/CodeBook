@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>CSS AND HTML ANIMATION</title>
+  <script src=""></script>
+  <link rel="stylesheet" href="">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script>
+    var name = "";
+
+    function backButton() {
+      document.location.reload();
+
+    };
+
+
+    function myfunction() {
+      var name = document.getElementById("Name").value;
+      var timer = new Date().getTime();
+      var namelist = name.replace(",", " ")
+
+      if (name.length > 0) {
+        document.getElementById("name-div").style.display = "None";
+        document.getElementById("button1").style.display = "None";
+        document.getElementById("dynamicList").style.display = "block";
+        document.getElementById("main-body").style.backgroundImage = "url(diwali3.gif)";
+        document.getElementById("main-body").style.backgroundSize = "1300px 700px;";
+        document.getElementById("dynamicList").style.display = "block";
+        document.getElementById("dynamicList").style.fontFamily = "cursive";
+        document.getElementById("backButton").style.display = "block";
+
+        var ul = document.getElementById("dynamicList");
+        var nameformatted = namelist;
+
+        var li = document.createElement("li")
+        li.setAttribute('id', nameformatted);
+        li.appendChild(document.createTextNode(nameformatted));
+        li.style.fontSize = "xx-large";
+        li.style.fontStyle = "";
+        li.style.color = 'chocolate';
+        ul.appendChild(li);
+      }
+    };
+    
+  </script>
+
+</head>
+
+<body id="main-body"
+  style="background-image: url(newdiwali.jpg); background-repeat: no-repeat; background-size: 1375px 700px;">
+  <div id="name-div">
+    <p style="font-size: -webkit-xxx-large; color: chocolate; opacity: 0.6; margin-top: unset;">Enter your Name.</p>
+    <input id="Name" type="text"><br>
+    <button id="button1" class="btn btn-dark" onclick="anime();">Submit</button>
+  </div>
+  <div style="text-align: right; position: absolute; top: 520px; right: 100px;">
+    <ul id="dynamicList" style="display: none;  " text-align="Right" type="none"></ul>
+    <button id="backButton" class="btn btn-secondary" onclick="backButton();" style="display: none;">Back</button>
+  </div>
+</body>
+
+</html>
